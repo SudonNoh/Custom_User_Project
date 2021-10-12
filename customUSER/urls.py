@@ -19,4 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users/', include('customUSER.authentication.api.urls', namespace='authentication')),
 ]
