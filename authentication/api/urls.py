@@ -1,13 +1,14 @@
 from django.urls import path, include
 from rest_framework import routers
 from .views import (
-    RegistrationAPIView, LoginAPIView
+    RegistrationAPIView, LoginAPIView, UserRetriveUpdateAPIView
 )
 
 
 urlpatterns = [
-    path('registration/', RegistrationAPIView.as_view()),
+    path('register/', RegistrationAPIView.as_view()),
     path('login/', LoginAPIView.as_view()),
+    path('update/', UserRetriveUpdateAPIView.as_view()),
 ]
 
 
