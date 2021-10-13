@@ -12,9 +12,9 @@ class RegistrationAPIView(APIView):
     serializer_class = RegistrationSerializer
     
     def post(self, request):
-        print('authentication/api/viws.py request        ', request)
-        print('authentication/api/viws.py reqeust.data.get()       ', request.data.get())
-        user = request.data.get('user', {})
+        # user = request.data.get('user', {}) 를 했을 경우
+        # 받은 json 값을 불러오지 못하고 있음. 이 부분을 reqest.data로 받아오면서 해결함
+        user = request.data
 
         # The create serializer, validate serializer, save serializer pattern
         # below is common and you will see it a lot throughout this course and
