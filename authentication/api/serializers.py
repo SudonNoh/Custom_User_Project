@@ -104,7 +104,8 @@ class UserSerializer(serializers.ModelSerializer):
         min_length=8,
         write_only=True
     )
-    
+
+
     class Meta:
         model = User
         fields = ('email', 'username', 'password', 'token',)
@@ -120,7 +121,6 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Perfrms an update on a User."""
-        print("instance  :  ", instance)
 
         # Passwords should not be handled with `setattr`, unlike other fields.
         # This is because Django provides a function that handles hashing and
