@@ -73,7 +73,7 @@ class UserRetriveUpdateAPIView(RetrieveUpdateAPIView):
             
             'profile': {
                 'bio': user_data.get('bio', request.user.profile.bio),
-                'image': user_data.get('image', request.user.profile.image),
+                'image_url': user_data.get('image_url', request.user.profile.image_url),
             }
         }
         serializer = self.serializer_class(

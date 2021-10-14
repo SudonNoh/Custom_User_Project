@@ -18,5 +18,6 @@ def create_related_profile(sender, instance, created, *args, **kwargs):
     # the first time the 'User' instance is created. If the save that caused
     # this signal to be run was an update action, we know the user already
     # has a profile.
+    
     if instance and created:
         instance.profile = Profile.objects.create(user=instance)

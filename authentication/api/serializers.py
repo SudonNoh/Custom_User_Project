@@ -112,16 +112,16 @@ class UserSerializer(serializers.ModelSerializer):
     # so we set 'write_only=True'.
     profile = ProfileSerializer(write_only=True)
     
-    # We want to get the 'bio' and 'image' fields from the related profile
+    # We want to get the 'bio' and 'image_url' fields from the related profile
     # model
     bio = serializers.CharField(source='profile.bio', read_only=True)
-    image = serializers.CharField(source='profile.image', read_only=True)
+    image_url = serializers.CharField(source='profile.image_url', read_only=True)
 
     class Meta:
         model = User
         fields = (
             'email', 'username', 'password', 'token', 'profile', 'bio',
-            'image'
+            'image_url'
             )
 
         # The 'read_only_fields' option is an alternative for explicitly

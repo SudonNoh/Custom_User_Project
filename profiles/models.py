@@ -18,7 +18,7 @@ class Profile(TimestampedModel):
 
     # In addition to the `bio` field, each user may have a profile image or
     # avatar. Similar to `bio`, this field is not required. It may be blank.
-    image = models.URLField(blank=True)
+    image_url = models.URLField(blank=True)
     
     def __str__(self):
         return self.user.username
