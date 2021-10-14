@@ -19,5 +19,4 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_image(self, obj):
         if obj.image:
             return obj.image
-        
         return 'https://static.productionready.io/images/smiley-cyrus.jpg'

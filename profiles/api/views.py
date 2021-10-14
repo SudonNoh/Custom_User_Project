@@ -22,6 +22,7 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
             profile = Profile.objects.select_related('user').get(
                 user__username = username
             )
+            # print('username', username) # not email / just username
         except Profile.DoesNotExist:
             raise ProfileDoesNotExist
         

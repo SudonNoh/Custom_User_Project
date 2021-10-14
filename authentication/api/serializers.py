@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 
 from authentication.models import User
+# We need to update "UserSerializer" to make the "update" method work with profiles.
+from profiles.api.serializers import ProfileSerializer
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -105,10 +107,22 @@ class UserSerializer(serializers.ModelSerializer):
         write_only=True
     )
 
+    # When a field should be handled as a serializer, we must explicitly say
+    # so. Moreover, 'UserSerializer' should never expose profile information,
+    # so we set 'write_only=True'.
+    profile = ProfileSerializer(write_only=True)
+    
+    # We want to get the 'bio' and 'image' fields from the related profile
+    # model
+    bio = serializers.CharField(source='profile.bio', read_only=True)
+    image = serializers.CharField(source='profile.image', read_only=True)
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', 'token',)
+        fields = (
+            'email', 'username', 'password', 'token', 'profile', 'bio',
+            'image'
+            )
 
         # The 'read_only_fields' option is an alternative for explicitly
         # specifying the field with 'read_only=True' like we did for password
@@ -120,7 +134,7 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields=('token',)
 
     def update(self, instance, validated_data):
-        """Perfrms an update on a User."""
+        """Performs an update on a User."""
 
         # Passwords should not be handled with `setattr`, unlike other fields.
         # This is because Django provides a function that handles hashing and
@@ -128,6 +142,11 @@ class UserSerializer(serializers.ModelSerializer):
         # here is that we need to remove the password field from the
         # `validated_data` dictionary before iterating over it.
         password = validated_data.pop('password', None)
+        
+        # Like passwords, we have to handle profiles separately. To do that,
+        # we remove the profile data from the 'validated_data' dictionary.
+        profile_data = validated_data.pop('profile', {})
+        
         
         for (key, value) in validated_data.items():
             # For the keys remaining in 'validated_data', we will set them on
@@ -143,5 +162,13 @@ class UserSerializer(serializers.ModelSerializer):
         # the model. It's worth pointing out that '.set_password()' does not
         # save the model.
         instance.save()
+        
+        for (key, value) in profile_data.items():
+            # We're doing the same thing as above, but this time we're making
+            # changes to the Profile model.
+            setattr(instance.profile, key, value)
+            
+        # Save the profile just like we saved the user.
+        instance.profile.save()
         
         return instance
