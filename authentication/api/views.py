@@ -72,4 +72,4 @@ class UserRetriveUpdateAPIView(RetrieveUpdateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         print("Seriaizer.data   :   ", serializer.data)
-        return Response(serializer.data, stauts=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -27,8 +27,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
         handle the rest.
         """
         request.user = None
-        print(request)
-        print(request.user)
+
         # 'auth_header' should be an array with two elements: 
         # 1) the name of the authentication header (in this case, "Token")
         # and 2) the JWT that we should authenticate against.
@@ -38,16 +37,19 @@ class JWTAuthentication(authentication.BaseAuthentication):
         print('auth_header_prefix :', auth_header_prefix)
         
         if not auth_header:
+            print(1)
             return None
         
         if len(auth_header) == 1:
             # Invalid token header. No credentials provided. Do not attempt to
             # authenticate.
+            print(2)
             return None
         
         elif len(auth_header) > 2:
             # Invaid token header. Token string should not contain spaces. Do
             # not attempt to authenticate.
+            print(3)
             return None
         
         # The JWT library we're using can't handle the `byte` type, which is
@@ -56,16 +58,19 @@ class JWTAuthentication(authentication.BaseAuthentication):
         # clean code, but it is a good decision because we would get an error
         # if we didn't decode these values.
         prefix = auth_header[0].decode('utf-8')
+        print('prefix: ', prefix)
         token = auth_header[1].decode('utf-8')
-
+        print('token: ', token)
         if prefix.lower() != auth_header_prefix:
             # The auth header prefix is not what we expected. Do not attempt to
             # authenticate
+            print(4)
             return None
         
         # By now, we are sure there is a *chance* that authentication will
         # succeed. We delegate the actual credentials authentication to the
         # method below.
+        print(5)
         return self._authenticate_credentials(request, token)
     
     def _authenticate_credentials(self, request, token):
@@ -74,9 +79,11 @@ class JWTAuthentication(authentication.BaseAuthentication):
         successful, return the user and token. If not, throw an error.
         """
         try:
+            print(6)
             payload = jwt.decode(token, settings.SECRET_KEY)
             print('payload  : ', payload)
         except:
+            print(7)
             msg = 'Invalid authentication. Could not decode token.'
             raise exceptions.AuthenticationFailed(msg)
         
@@ -90,5 +97,6 @@ class JWTAuthentication(authentication.BaseAuthentication):
             msg = 'This user has been deactivated.'
             raise exceptions.AuthenticationFailed(msg)
         
+        print("user:  ", user,"token:   ", token)
         return (user, token)
             
