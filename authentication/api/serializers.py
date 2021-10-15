@@ -135,7 +135,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Performs an update on a User."""
-
+        print(validated_data)
         # Passwords should not be handled with `setattr`, unlike other fields.
         # This is because Django provides a function that handles hashing and
         # salting passwords, which is important for security. What that means
@@ -145,7 +145,7 @@ class UserSerializer(serializers.ModelSerializer):
         
         # Like passwords, we have to handle profiles separately. To do that,
         # we remove the profile data from the 'validated_data' dictionary.
-        profile_data = validated_data.pop('profile', {})
+        profile_data = validated_data.pop('profile', {}) 
         
         
         for (key, value) in validated_data.items():

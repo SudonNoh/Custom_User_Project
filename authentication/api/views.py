@@ -79,6 +79,7 @@ class UserRetriveUpdateAPIView(RetrieveUpdateAPIView):
         serializer = self.serializer_class(
             request.user, data=serializer_data, partial=True 
         )
+        print(serializer_data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         
