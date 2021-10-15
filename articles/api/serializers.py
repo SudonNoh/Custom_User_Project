@@ -32,7 +32,6 @@ class ArticleSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         author = self.context.get('author',None)
-        print('author', author)
         
         return Article.objects.create(author=author, **validated_data)
 
