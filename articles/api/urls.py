@@ -6,7 +6,7 @@ from .views import ArticleViewSet
 
 # APPEND_SLASH=False : When use trailing_slash, you should put it in settings.
 router = DefaultRouter(trailing_slash=False)
-router.register(r'create', ArticleViewSet)
+router.register(r'', ArticleViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -3,7 +3,7 @@ from django.dispatch import receiver
 
 from profiles.models import Profile
 
-from .models import User
+from authentication.models import User
 
 # 앞서 profile 모델에서 'User' 모델과 'Profile' 모델 사이를 One-to-One 관계로
 # 정의했다. 장고에서 우리가 'User'를 만들 떄 'Profile'도 자동으로 만들어지면

@@ -56,7 +56,7 @@ class UserRetriveUpdateAPIView(RetrieveUpdateAPIView):
     renderer_classes = (UserJSONRenderer,)
     serializer_class = UserSerializer
     
-    def retrieve(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         # There is nothing to validate or save here. Instead, we just want the
         # serializer to handle turning our 'User' object into something that
         # can be JSONified and sent to the client.
@@ -64,7 +64,7 @@ class UserRetriveUpdateAPIView(RetrieveUpdateAPIView):
         
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def update(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         user_data = request.data
 
         serializer_data = {
