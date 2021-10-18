@@ -4,9 +4,9 @@ from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
-from articles.models import Article
-from .renderers import ArticleJSONRenderer
-from .serializers import ArticleSerializer
+from articles.models import Article, Comment
+from .renderers import ArticleJSONRenderer, CommentJSONRenderer
+from .serializers import ArticleSerializer, CommentSerializer
 
 
 # CreateModelMixin  provides a ".create(request, *args, **kwargs)" method,
