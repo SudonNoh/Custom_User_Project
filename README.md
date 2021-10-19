@@ -6,3 +6,6 @@
 #### 참고자료 :: [conduit-django-markdown 02.Profiles](https://github.com/lolripgg/conduit-django-markdown/blob/master/02-profiles.md)
 #### 참고자료 :: [conduit-django-markdown 03.Articles](https://github.com/lolripgg/conduit-django-markdown/blob/master/03-articles.md)
 #### 참고자료 :: [conduit-django-markdown 04.Comments](https://github.com/lolripgg/conduit-django-markdown/blob/master/04-comments.md)
+#### 참고자료 :: [conduit-django-markdown 05.Following](https://github.com/lolripgg/conduit-django-markdown/blob/master/05-following.md)
+#### 참고자료 :: [conduit-django-markdown 06.Favoriting](https://github.com/lolripgg/conduit-django-markdown/blob/master/06-favoriting.md)
+#### 참고자료 :: [conduit-django-markdown 07.tagging](https://github.com/lolripgg/conduit-django-markdown/blob/master/07-tagging.md)
