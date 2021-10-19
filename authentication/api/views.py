@@ -10,6 +10,7 @@ from .serializers import (
     RegistrationSerializer, LoginSerializer, UserSerializer,
 )
 from .renderers import UserJSONRenderer
+from authentication.models import User
 
 
 class RegistrationAPIView(APIView):
@@ -52,9 +53,12 @@ class LoginAPIView(APIView):
     
     
 class UserRetriveUpdateAPIView(RetrieveUpdateAPIView):
+    queryset = User.objects.all()
     permission_classes = (IsAuthenticated,)
     renderer_classes = (UserJSONRenderer,)
     serializer_class = UserSerializer
+    
+    print(queryset)
     
     def get(self, request, *args, **kwargs):
         # There is nothing to validate or save here. Instead, we just want the
@@ -65,7 +69,9 @@ class UserRetriveUpdateAPIView(RetrieveUpdateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, *args, **kwargs):
+        print(1)
         user_data = request.data
+        print(user_data)
 
         serializer_data = {
             'username': user_data.get('username', request.user.username),
@@ -79,7 +85,7 @@ class UserRetriveUpdateAPIView(RetrieveUpdateAPIView):
         serializer = self.serializer_class(
             request.user, data=serializer_data, partial=True 
         )
-        print(serializer_data)
+
         serializer.is_valid(raise_exception=True)
         serializer.save()
         
