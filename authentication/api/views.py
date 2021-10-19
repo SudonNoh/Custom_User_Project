@@ -58,8 +58,6 @@ class UserRetriveUpdateAPIView(RetrieveUpdateAPIView):
     renderer_classes = (UserJSONRenderer,)
     serializer_class = UserSerializer
     
-    print(queryset)
-    
     def get(self, request, *args, **kwargs):
         # There is nothing to validate or save here. Instead, we just want the
         # serializer to handle turning our 'User' object into something that
@@ -69,9 +67,7 @@ class UserRetriveUpdateAPIView(RetrieveUpdateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, *args, **kwargs):
-        print(1)
         user_data = request.data
-        print(user_data)
 
         serializer_data = {
             'username': user_data.get('username', request.user.username),
