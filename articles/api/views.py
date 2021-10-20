@@ -29,12 +29,18 @@ class ArticleViewSet(
     serializer_class = ArticleSerializer
 
     def create(self, request):
-        serializer_context = {'author': request.user.profile}
-        serializer_data = request.data
+        serializer_context = {
+            'author': request.user.profile,
+            'request': request
+            }
+        print('article/api/views/articleviewset/create \n serializer_context:   ', serializer_context)
         
+        serializer_data = request.data
+        print('article/api/views/articleviewset/create \n serializer_data:   ', serializer_data)
         serializer = self.serializer_class(
             data=serializer_data, context=serializer_context
         )
+        print('article/api/views/articleviewset/create \n serializer:   ', serializer)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         
