@@ -2,6 +2,7 @@ from functools import partial
 from rest_framework import generics, mixins, status, viewsets
 from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
@@ -152,5 +153,32 @@ class ArticlesFavoriteAPIView(APIView):
     renderer_classes = (ArticleJSONRenderer,)
     serializer_class = ArticleSerializer
     
-    # def delete(self, request, article_slug=None):
+    def delete(self, request, article_slug=None):
+        profile = self.request.user.profile
+        serializer_context = {'request': request}
+
+        try:
+            article = Article.objects.get(slug=article_slug)
+        except Article.DoesNotExist:
+            raise NotFound('An article with this slug was not found.')
+
+        profile.unfavorite(article)
         
+        serializer = self.serializer_class(article, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request, article_slug=None):
+        profile = self.request.user.profile
+        serializer_context = {'request': request}
+
+        try:
+            article = Article.objects.get(slug=article_slug)
+        except Article.DoesNotExist:
+            raise NotFound('An article with this slug was not found.')
+        
+        profile.favorite(article)
+        
+        serializer = self.serializer_class(article,context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
