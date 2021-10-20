@@ -47,22 +47,13 @@ class ArticleSerializer(serializers.ModelSerializer):
     
     def get_favorited(self, instance):
         request = self.context.get('request', None)
-        print(
-            'articles/api/serializers/ArticleSerializer/get_favorited \n request:   ',
-            request
-            )
         
         if request is None:
             return False
         
         if not request.user.is_authenticated:
             return False
-        
-        print(
-            'articles/api/serializers/ArticleSerializer/get_favorited \n instance:   ',
-            instance
-            )
-        
+                
         return request.user.profile.has_favorited(instance)
     
     def get_favorites_count(self, instance):
@@ -89,7 +80,6 @@ class CommentSerializer(serializers.ModelSerializer):
         )
     
     def create(self, validated_data):
-        print('articles/serializers/create \n self.context   :', self.context)
         article = self.context['article']
         author = self.context['author']
         

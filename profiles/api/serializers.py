@@ -32,8 +32,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             return False
         
         follower = request.user.profile
-        print('profiles/serializers/profileserializer \n follower: ', follower)
         followee = instance
-        print('profiles/serializers/profileserializer \n followee: ', followee)
         
         return follower.is_following(followee)

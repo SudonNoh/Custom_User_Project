@@ -65,4 +65,4 @@ class Profile(TimestampedModel):
     
     def has_favorited(self, article):
         """Returns True if we have favorited 'article'; else False."""
-        return self.favorites.filer(pk=article.pk).exists()
+        return self.favorites.filter(pk=article.pk).exists()
