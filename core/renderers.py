@@ -6,8 +6,11 @@ from rest_framework.utils.serializer_helpers import ReturnList
 class CoreJSONRenderer(JSONRenderer):
     charset = 'utf-8'
     object_label = 'object'
-    object_label_plural = 'objects'
+    # object_label_plural = 'objects'
+    pagination_object_label = 'objects'
+    pagination_object_count = 'count'
     
+    """ before setting pagination
     def render(self, data, media_type=None, renderer_context=None):
         if isinstance(data, ReturnList):
             _data = json.loads(
@@ -30,6 +33,28 @@ class CoreJSONRenderer(JSONRenderer):
                 # rendering errors.
                 return super(CoreJSONRenderer, self).render(data)
             
+            return json.dumps({
+                self.object_label: data
+            })
+    """
+    
+    def render(self, data, media_type=None, renderer_context=None):
+        if data.get('results', None) is not None:
+            # json.dumps python 객체를 json 문자열로 변환
+            return json.dumps({
+                self.pagination_object_label: data['results'],
+                self.pagination_object_count: data['count']
+            })
+            
+        # If the view throws an error (such as the user can't be authenticated
+        # or something similar), 'data' will contain an 'errors' key. We want
+        # the default JSONRenderer to handle rendering errors, so we need to
+        # check for this case.
+        
+        elif data.get('errors', None) is not None:
+            return super(CoreJSONRenderer, self).render(data)
+        
+        else:
             return json.dumps({
                 self.object_label: data
             })

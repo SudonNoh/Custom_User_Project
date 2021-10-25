@@ -10,8 +10,8 @@ from .relations import TagRelatedField
 class ArticleSerializer(serializers.ModelSerializer):
     author = ProfileSerializer(read_only=True)
     description = serializers.CharField(required=True)
+
     slug = serializers.SlugField(required=False)
-    
     favorited = serializers.SerializerMethodField()
     favoritesCount = serializers.SerializerMethodField(
         method_name = 'get_favorites_count'

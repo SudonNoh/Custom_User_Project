@@ -49,15 +49,15 @@ class ArticleViewSet(
     
     def list(self, request):
         serializer_context = {'request': request}
-        serializer_instances = self.queryset.all()
-        
+        # serializer_instances = self.queryset.all()
+        page = self.paginate_queryset(self.queryset)
         serializer = self.serializer_class(
-            serializer_instances,
+            # serializer_instances,
+            page,
             context=serializer_context,
             many=True
         )
-        
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return self.get_paginated_response(serializer.data)
     
     def retrieve(self, request, slug):
         serializer_context = {'request': request}
