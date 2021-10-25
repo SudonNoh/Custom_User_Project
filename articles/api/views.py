@@ -1,15 +1,15 @@
 from functools import partial
 from rest_framework import generics, mixins, status, viewsets
 from rest_framework.exceptions import NotFound
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
 
-from articles.models import Article, Comment
+from articles.models import Article, Comment, Tag
 from .renderers import ArticleJSONRenderer, CommentJSONRenderer
-from .serializers import ArticleSerializer, CommentSerializer
+from .serializers import ArticleSerializer, CommentSerializer, TagSerializer
 
 
 # CreateModelMixin  provides a ".create(request, *args, **kwargs)" method,
@@ -94,6 +94,7 @@ class ArticleViewSet(
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+
 class CommentsListCreateAPIView(generics.ListCreateAPIView):
     lookup_field = 'article__slug'
     lookup_url_kwarg = 'article_slug'
@@ -133,6 +134,7 @@ class CommentsListCreateAPIView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+
 class CommentsDestroyAPIView(generics.DestroyAPIView):
     lookup_url_kwarg = 'comment_pk'
     permisssion_classes = (IsAuthenticatedOrReadOnly,)
@@ -147,6 +149,8 @@ class CommentsDestroyAPIView(generics.DestroyAPIView):
         comment.delete()
         
         return Response(None, status=status.HTTP_204_NO_CONTENT)
+
+
 
 class ArticlesFavoriteAPIView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -182,3 +186,19 @@ class ArticlesFavoriteAPIView(APIView):
         serializer = self.serializer_class(article,context=serializer_context)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+class TagListAPIView(generics.ListAPIView):
+    queryset = Tag.objects.all()
+    pagination_class = None
+    permission_classes = (AllowAny,)
+    serializer_class = TagSerializer
+
+    def list(self, request):
+        serializer_data = self.get_queryset()
+        serializer = self.serializer_class(serializer_data, many=True)
+
+        return Response({
+            'tags': serializer.data
+        }, status=status.HTTP_200_OK)
