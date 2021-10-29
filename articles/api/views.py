@@ -116,7 +116,6 @@ class ArticleViewSet(
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
 class CommentsListCreateAPIView(generics.ListCreateAPIView):
     lookup_field = 'article__slug'
     lookup_url_kwarg = 'article_slug'
@@ -156,7 +155,6 @@ class CommentsListCreateAPIView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-
 class CommentsDestroyAPIView(generics.DestroyAPIView):
     lookup_url_kwarg = 'comment_pk'
     permisssion_classes = (IsAuthenticatedOrReadOnly,)
@@ -171,7 +169,6 @@ class CommentsDestroyAPIView(generics.DestroyAPIView):
         comment.delete()
         
         return Response(None, status=status.HTTP_204_NO_CONTENT)
-
 
 
 class ArticlesFavoriteAPIView(APIView):
@@ -210,7 +207,6 @@ class ArticlesFavoriteAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
 class TagListAPIView(generics.ListAPIView):
     queryset = Tag.objects.all()
     pagination_class = None
@@ -224,7 +220,6 @@ class TagListAPIView(generics.ListAPIView):
         return Response({
             'tags': serializer.data
         }, status=status.HTTP_200_OK)
-
 
 
 class ArticlesFeedAPIView(generics.ListAPIView):
