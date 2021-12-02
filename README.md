@@ -1,5 +1,7 @@
 ## Custom User Project
 
+'realworld'에 있는 내용을 토대로 작성한 DRF 입니다.
+
 ### 전체코드 :: [django-realworld-example-app](https://github.com/gothinkster/django-realworld-example-app)
 
 #### 참고자료 :: [conduit-django-markdown 01.Authentication](https://github.com/lolripgg/conduit-django-markdown/blob/master/01-authentication.md)
